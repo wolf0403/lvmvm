@@ -1,0 +1,2 @@
+Acquire::http::Proxy "http://192.168.2.100:3128";
+

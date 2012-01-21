@@ -29,4 +29,11 @@ mount /dev "$MP/dev" --bind
 echo $VOL > $MP/etc/hostname
 touch $MP/chroot.$VOL
 
-[ -x chroot/$VOL.mount ] && chroot/$VOL.mount
+export VG VOL MP
+
+[ ! -d chroot ] && exit 
+pushd chroot
+[ -x ./mount ] && ./mount
+[ -x ./$VOL.mount ] && ./$VOL.mount
+popd
+
