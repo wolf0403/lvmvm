@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[ -z "$VG" ] && VG=data
+source args || exit 1
 
 if [ -z "$VOL" ] || ! ( mount | grep "/mnt/$VOL" ) ; then 
   echo "Mount /mnt/$VOL does not exist."
@@ -18,6 +18,11 @@ fi
 
 umount /mnt/$VOL/proc
 umount /mnt/$VOL/sys
+umount /mnt/$VOL/dev/pts
 umount /mnt/$VOL/dev
-umount /mnt/$VOL
+sleep 1
+umount /mnt/$VOL || exit 1
+
+rm -rf /mnt/$VOL
+
 

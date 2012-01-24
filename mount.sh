@@ -1,8 +1,7 @@
 #!/bin/bash
 
-[ -z "$VG" ] && VG=data
+source args || exit 1
 
-[ -z "$VOL" ] && echo "VOL not defined." && exit 1
 DEV="`readlink /dev/$VG/$VOL`"
 
 if [ ! -b "$DEV" ]; then
@@ -22,7 +21,8 @@ MP="/mnt/$VOL"
 [ ! -d $MP ] && mkdir "$MP"
 [ ! -d $MP ] && echo "$MP creation failed." && exit 1
 
-mount /dev/$VG/$VOL "$MP"
+mount /dev/$VG/$VOL "$MP" || exit 1
+mount -t devpts none $MP/dev/pts
 mount /proc "$MP/proc" --bind
 mount /sys "$MP/sys" --bind
 mount /dev "$MP/dev" --bind

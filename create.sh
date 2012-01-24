@@ -1,7 +1,8 @@
 #!/bin/bash
 
-[ -z "$VG" ] && VG=data
+source args || exit 1
 
-[ -z "$VOL" ] && echo "VOL undefined." && exit 1
+SRC=/dev/$VG/$BOOTSTRAP
+LE=`lvdisplay $SRC | grep 'Current LE' | egrep '[[:digit:]]+' -o `
 
-lvcreate --snapshot /dev/$VG/bootstrap -n $VOL -l2023
+lvcreate --snapshot /dev/$VG/$BOOTSTRAP -n $VOL -l2023

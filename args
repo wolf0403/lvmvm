@@ -1,0 +1,13 @@
+#!/bin/bash
+
+[ -z "$VG" ] && VG=srv
+[ -z "$BOOTSTRAP" ] && BOOTSTRAP=bootstrap
+
+if [ -z "$VOL" ] && [ -z "$1" ]; then
+  echo "VOL not defined." && exit 1
+fi
+
+if [ -z "$VOL" ] && [ -n "$1" ]; then
+  VOL="$1"
+fi
+
