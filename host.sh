@@ -1,11 +1,14 @@
 #!/bin/bash
 
-[ -z "$V" ] && exit 0
-[ -z "$VOL" ] && exit 0
+[ -f args ] && source args
 
-export VIF="veth-$V"
-export VIP="192.168.$V"
-export VMARKER="_marker_$V"
+[ -z "$VOL" ] && exit 0
+[ -z "$VNETID" ] && exit 0
+
+[ -z "$VIF" ] && VIF="veth-$VNETID"
+[ -z "$VIP" ] && VIP="192.168.$VNETID"
+export VMARKER="_marker_$VNETID"
+export VIF VIP
 
 if ( ps axo pid,ppid,cmd | grep $VMARKER | grep -v grep ); then
   exit 1
