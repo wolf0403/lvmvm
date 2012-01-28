@@ -1,3 +1,5 @@
 #!/bin/bash
 
+[ -z "$MP" ] && exit 0
+
 rsync -av --exclude='.svn/*' etc $MP

@@ -22,7 +22,7 @@ MP="/mnt/$VOL"
 [ ! -d $MP ] && echo "$MP creation failed." && exit 1
 
 mount /dev/$VG/$VOL "$MP" || exit 1
-mount -t devpts none $MP/dev/pts
+#mount -t devpts none $MP/dev/pts # done within unshare / chroot env.
 mount /proc "$MP/proc" --bind
 mount /sys "$MP/sys" --bind
 mount /dev "$MP/dev" --bind

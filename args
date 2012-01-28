@@ -1,6 +1,6 @@
 #!/bin/bash
 
-[ -z "$VG" ] && VG=srv
+[ -z "$VG" ] && VG=data
 [ -z "$BOOTSTRAP" ] && BOOTSTRAP=bootstrap
 
 if [ -z "$VOL" ] && [ -z "$1" ]; then
