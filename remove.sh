@@ -10,9 +10,14 @@ sleep 1
 lvremove -f $DEV
 }
 
+function rmcgroup {
+  [ -n "$VMARKER" ] && cgdelete memory:$VMARKER
+}
+
 #VNET=`/sbin/ifconfig -a | grep -A1 veth-$VOL-host | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1 }'`
 
 rmdev
+rmcgroup
 
 # does not handle ./host.sh created veths 
 if ( /sbin/ifconfig -a | grep veth-$VOL-host ); then

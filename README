@@ -32,3 +32,6 @@ host.sh
 
 pause.sh
   Helper script for host.sh. Only designed to be run by host.sh
+
+stop.sh
+  Stop SSHd, removing virtual network

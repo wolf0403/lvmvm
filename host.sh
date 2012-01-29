@@ -7,10 +7,10 @@
 
 [ -z "$VIF" ] && VIF="veth-$VNETID"
 [ -z "$VIP" ] && VIP="192.168.$VNETID"
-export VMARKER="_marker_$VNETID"
-export VIF VIP
+[ -z "$VMARKER" ] && VMARKER="marker_$VOL"
+export VIF VIP VMARKER
 
-if ( ps axo pid,ppid,cmd | grep $VMARKER | grep -v grep ); then
+if ( ps axo pid,ppid,cmd | grep "PAUSE_$VMARKER" | grep -v grep ); then
   exit 1
 fi
 
@@ -18,10 +18,12 @@ if ( /sbin/ifconfig -a | grep ${VIF} ); then
   exit 1
 fi
 
-unshare -un -- /usr/bin/env MP=/mnt/${VOL} /bin/bash -x ./pause.sh /usr/sbin/dropbear &
+cgcreate -g memory:$VMARKER
+
+unshare -un -- /usr/bin/cgexec -g memory:$VMARKER /usr/bin/env MP=/mnt/${VOL} /bin/bash -x ./pause.sh /usr/sbin/dropbear &
 sleep 1
 
-LINE=`ps axo pid,ppid,cmd | grep "$VMARKER" | grep -v grep`
+LINE=`ps axo pid,ppid,cmd | grep "PAUSE_$VMARKER" | grep -v grep`
 VPID=`echo "$LINE" | awk '{print $1;}'`
 VPPID=`echo "$LINE" | awk '{print $2;}'`
 
