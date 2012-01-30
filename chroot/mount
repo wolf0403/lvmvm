@@ -1,0 +1,6 @@
+#!/bin/bash
+
+[ -z "$MP" ] && exit 0
+
+# Do any modifications to $MP e.g. copy files into chroot, etc.
+

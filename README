@@ -1,0 +1,37 @@
+LVM2 based system container
+Usage:
+Create LVM volume group $VG and logical volume $BOOTSTRAP, update names in args
+Mount /dev/$VG/$BOOTSTRAP on /mnt/bootstrap and create base system inside
+  debootstrap natty /mnt/bootstrap
+Setup the base system for SSH access (if running in isolated mode intended)
+  chroot /mnt/bootstrap
+  passwd # setup new root password for chroot
+  apt-get install dropbear # or openssh-server. will fail when starting ssh server.
+Quit chroot shell, umount /mnt/bootstrap
+
+For creating new virtual environment virtenv1 with network address 192.168.100.2
+  cp conf.example virtenv1
+and modify variables inside.
+Then call ./create.sh virtenv1 to create environment, ./mount.sh virtenv1 to mount filesystem.
+User may chroot /mnt/virtenv1 to make changes, or setup network and start SSH by running ./host.sh virtenv1
+
+chroot/*
+  Setup scripts when mounting / umounting filesystem
+
+chroot/mount
+  Hook script run for all mounts
+
+chroot/umount
+  Hook script run for all umounts
+
+chroot/$NAME.mount or $NAME.umount
+  Hoot script run for environment $NAME
+
+host.sh
+  Run SSHd (dropbear) from within virtual env.
+
+pause.sh
+  Helper script for host.sh. Only designed to be run by host.sh
+
+stop.sh
+  Stop SSHd, removing virtual network

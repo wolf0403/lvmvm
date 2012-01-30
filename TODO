@@ -1,0 +1,2 @@
+Ubuntu upstart (and services depending upon) can not be started. MySQL server is one example.
+PID namespace is not isolated (unshare(1) does not support CLONE_NEWPID).
