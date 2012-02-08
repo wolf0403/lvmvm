@@ -2,16 +2,23 @@
 #
 # Defining VOL variable or the file name will be used
 # VOL=vntest2
-#
+
 # Define VNETID and subnet 192.168.$VNETID.{0,1} will be
 # created for communicating with chroot environment
 # This is required to run SSH environments
 # VNETID=12
-#
+
+# Defining VOL variable or the file name will be used
+# VOL=vntest2
+# Define VNETID and subnet 192.168.$VNETID.{0,1} will be
+# created for communicating with chroot environment
+# VNETID=12
+
 # Define VMARKER for virtual environment marker
 # Used to distinguish between venvs, for process marker and cgroup
 # Default to be same as marker_$VOL
 # VMARKER=vntest2
+
 #
 # Define MEMLIMIT for virtual environment memory limit
 # Will use Cgroups to limit the memory usage of SSH process
