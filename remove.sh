@@ -3,11 +3,19 @@
 source args || exit 1
 
 DEV=/dev/$VG/$VOL
+MP=/mnt/$VOL
 
 function rmdev {
-lvremove -tf $DEV || return 1
-sleep 1
-lvremove -f $DEV
+  if ( mount | grep $MP ); then
+    echo "$MP is still mounted, can't remove."
+    return 1
+  fi
+  if ! ( lvremove -tf $DEV ); then
+    echo "Removing $DEV failed."
+    return 1
+  fi
+  sleep 3
+  lvremove -f $DEV
 }
 
 function rmcgroup {
@@ -16,7 +24,7 @@ function rmcgroup {
 
 #VNET=`/sbin/ifconfig -a | grep -A1 veth-$VOL-host | grep 'inet addr:' | cut -d: -f2 | awk '{ print $1 }'`
 
-rmdev
+rmdev || exit 1
 rmcgroup
 
 # does not handle ./host.sh created veths 
